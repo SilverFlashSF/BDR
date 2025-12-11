@@ -1,0 +1,15 @@
+.main {
+    text-align: center;
+    font-size: 80px;
+    color: rgb(93, 130, 242);
+    font-family: 'Pacifico', cursive;
+    background-color: black;
+}
+
+body {
+    background-color: black;
+}
+
+#videoAfter {
+    display: none;
+}

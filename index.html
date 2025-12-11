@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Page Site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1 class="main"> Happy Birthday Ma Su!!!
+    </h1>
+    <video id="videoBefore" width="100%" autoplay muted loop>
+        <source src="Before.mp4" type="video/mp4">
+    </video>
+
+    <video id="videoAfter" width="100%">
+        <source src="After.mp4" type="video/mp4">
+    </video>
+
+    <script>
+        const beforeVid = document.getElementById("videoBefore");
+        const afterVid = document.getElementById("videoAfter");
+
+        let triggered = false;
+
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+            const audioContext = new AudioContext();
+            const mic = audioContext.createMediaStreamSource(stream);
+            const analyser = audioContext.createAnalyser();
+            analyser.fftSize = 512;
+
+            mic.connect(analyser);
+
+            const data = new Uint8Array(analyser.frequencyBinCount);
+
+            function listen() {
+                analyser.getByteFrequencyData(data);
+
+                // Measure average loudness
+                let sum = 0;
+                for (let i = 0; i < data.length; i++) sum += data[i];
+                let volume = sum / data.length;
+                const REQUIRED_FRAMES = 12;
+                // Adjust threshold depending on loudness of room
+                if (volume > 100 && !triggered && REQUIRED_FRAMES) {
+                    triggered = true;
+
+                    // Switch videos
+                    beforeVid.style.display = "none";
+                    afterVid.style.display = "block";
+                    afterVid.play();
+                }
+
+                requestAnimationFrame(listen);
+            }
+
+            listen();
+        });
+    </script>
+
+
+
+
+
+
+</body>
+
+</html
