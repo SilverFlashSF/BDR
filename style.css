@@ -12,4 +12,21 @@ body {
 
 #videoAfter {
     display: none;
+
+}
+
+.cake-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 100px;
+    /* adjust position */
+}
+
+.cake-container video {
+    width: 250px;
+    /* adjust size here */
+    height: auto;
+    object-fit: contain;
 }
